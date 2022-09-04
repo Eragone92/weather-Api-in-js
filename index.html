@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- title for our site -->
+    <title>Weather API</title>
+    <style>
+       /* add css styles */
+        .block__top_temperature {
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .block__top {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .block__top_left-icon {
+            width: 200px;
+        }
+        
+        .header {
+        height: 50px;
+        background-color: blue;
+        color: yellow;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 10px 0 10px;
+        margin-bottom: 15px;
+        width: 850px;
+        }
+
+        .header_input {
+            outline: none;
+            border: none;
+            border-bottom: 2px solid yellow;
+            background-color: blue;
+            margin-right: 15px;
+            color: yellow;
+        }
+
+        .block__top_left-city {
+            color: blue;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .flex_col {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .block__top_left-city {
+            margin-bottom: 10px;
+        }
+
+        .block__top {
+            padding: 0 25px 0 25px;
+        }
+
+        .list li {
+            list-style: none;
+        }
+
+        .list li + li {
+          margin-top: 15px;
+        }
+
+        .wrapper {
+            width: 850px;
+            background-color: white;
+        }
+
+        .block__top_right {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .date {
+            align-self: flex-end;
+            color: blue;
+            font-weight: bold;
+            padding-bottom: 10px;
+        }
+
+        .block__bottom_hourly {
+            color: blue;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        #block__bottom_content {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .block__bottom {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around; 
+            align-items: center; 
+        }
+
+        #boxFiveImg, #boxOneImg, #boxTwoImg, #boxThreeImg, #boxFourImg, #boxSixImg {
+            align-self: flex-start;
+        }
+
+        .error {
+            display: none!important;
+        }
+        
+        .visible {display: block;}
+       
+        #er {
+            display: none;
+        }
+        .errorActive {
+            display: flex!important;
+            flex-direction: column;
+            align-items: center;
+            width: 850px;
+        }
+        .block__bottom_hourly {
+            margin-bottom: 98px;
+        }
+    </style>
+    <!-- close styles css block -->
+</head>
+<body>
+    <!-- header_block -->
+    <div class="header" id="head">
+        <!-- main title -->
+        <h1>Current weather</h1>
+        <div>
+        <input class="header_input" type="text" id="inp" placeholder="Search">
+        <button class="header_button" id="btn">&#128269;</button>
+        </div>
+     </div>
+     <!-- wrapper for main content -->
+<div class="wrapper" id="wrapper">
+    <!-- block with content in top -->
+ <div class="block__top">
+    <!-- left side  -->
+    <div class="block__top_left flex_col">
+        <div class="block__top_left-city" id="city"></div>
+        <div class="block__top_left-weather" id="weather"></div>
+        <img class="block__top_left-icon" id="icon"/>
+
+    </div>
+    <!-- middle side -->
+    <div class='block__top_temperature' id="temperature"></div>
+<!-- right side -->
+    <div class="block__top_right">
+        <div class="date" id="date"></div>
+        <!-- list with temeratures -->
+     <ul class="list">
+        <!-- minimal temperature -->
+        <li class="min_temp" id="min_temp"></li>
+        <!-- max temperature -->
+        <li class="max_temp" id="max_temp"></li>
+        <!-- wind speed -->
+        <li class="wind_speer" id="wind_speed"></li>
+     </ul>
+    </div>
+ </div>
+<!-- botton content -->
+ <div class="block__bottom" id="bottom">
+    <div>
+       <div class="block__bottom_hourly" id="hourly"></div>
+       <div class="forecast" id="forecast"></div>
+       <div class="Temp" id="temp"></div>
+       <div class="wind" id="wind"></div>
+    </div>
+       <div id="block__bottom_content">
+        <div class="block__bottom_box_1">
+            <div id="boxOneTime"></div>
+            <img  id="boxOneImg"/>
+            <div id="boxOneMain"></div>
+            <div id="boxOneTemp"></div>
+            <div id="boxOneWind"></div>
+        </div>
+
+        <div class="block__bottom_box_2">
+            <div id="boxTwoTime"></div>
+            <img  id="boxTwoImg"/>
+            <div id="boxTwoMain"></div>
+            <div id="boxTwoTemp"></div>
+            <div id="boxTwoWind"></div>
+        </div>
+
+        <div class="block__bottom_box_3">
+            <div id="boxThreeTime"></div>
+            <img  id="boxThreeImg"/>
+            <div id="boxThreeMain"></div>
+            <div id="boxThreeTemp"></div>
+            <div id="boxThreeWind"></div>
+        </div>
+
+        <div class="block__bottom_box_4">
+            <div id="boxFourTime"></div>
+            <img  id="boxFourImg"/>
+            <div id="boxFourMain"></div>
+            <div id="boxFourTemp"></div>
+            <div id="boxFourWind"></div>
+        </div>
+
+        <div class="block__bottom_box_5">
+            <div id="boxFiveTime"></div>
+            <img  id="boxFiveImg"/>
+            <div id="boxFiveMain"></div>
+            <div id="boxFiveTemp"></div>
+            <div id="boxFiveWind"></div>
+        </div>
+
+        <div class="block__bottom_box_6">
+            <div id="boxSixTime"></div>
+            <img  id="boxSixImg"/>
+            <div id="boxSixMain"></div>
+            <div id="boxSixTemp"></div>
+            <div id="boxSixWind"></div>
+        </div>
+       </div>
+ </div>
+
+</div>
+<!-- page with coontent 404 or error -->
+<div id="er">
+      <h2 style="color: orange">404</h2>
+      <h3>NOT FOUND</h3>
+      <h4>please enter a different city</h4>
+      <!-- close 404 content -->
+</div>
+<!-- open our js script -->
+    <script>
+        // at first i make variables
+        // variable for city
+        const city = document.getElementById('city');
+        // variable for weathe block
+        const weatherNew = document.getElementById('weather');
+        // variable for icon
+        const icon = document.getElementById('icon');
+        // variable for temperature
+        const temperature = document.getElementById('temperature');
+        // variable with key from my account in site
+        const apiKey = "b7aee3767d90ee2106df070ee78c6a99";
+        // array with days in month, for my switch case
+        const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+        // main function for button in header
+ btn.onclick = () => {
+    // variable for input
+        const inputValue = document.getElementById('inp').value;
+// our fetch response for server with input value(city name) and with our variable with key
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${inputValue}&appid=${apiKey}`)
+        // request translate in json format
+        .then( function (resp) {return resp.json() } )
+        // function accepts our request
+        .then( function (data) {
+        //    if name = undefined add class for main wrapper
+            if (data.name === undefined) {
+                wrapper.classList.add('error');
+                er.classList.add('errorActive'); 
+        //  else wrapper is visible
+            }else {
+                wrapper.classList.remove('error');
+                er.classList.remove('errorActive'); 
+                // add to browser name of city
+            city.innerHTML = data.name;
+            // add day
+            hourly.innerHTML = day(days);
+            weatherNew.innerHTML = data.weather[0].main;
+            // write forecat in document
+            forecast.textContent = "Forecast";
+            // translate temp from celvins to celsii
+            temp.innerHTML = "Temp(" + "&deg;" + "C)";
+            // wind speed in browser
+            wind.textContent = "Wind(km/h)";
+            // using function foricon
+            forIcon(data.weather[0].main, icon);
+            temperature.innerHTML = Math.round(data.main.temp - 273) + "&deg;" + "C";
+            wind_speed.innerHTML = "Wind speed: " + (data.wind.speed);
+            // call function hour weather
+            hourWeather(data.coord.lat, data.coord.lon);
+            // call functions for any times
+            // for 7:00 hours
+            renderBox(data.coord.lat, data.coord.lon, "7:00", 7, boxOneTime, boxOneImg, boxOneMain, boxOneTemp, boxOneWind);
+            // for 10:00 hours
+            renderBox(data.coord.lat, data.coord.lon, "10:00", 10, boxTwoTime, boxTwoImg, boxTwoMain, boxTwoTemp, boxTwoWind);
+            // for 13:00 hours
+            renderBox(data.coord.lat, data.coord.lon, "13:00", 13, boxThreeTime, boxThreeImg, boxThreeMain, boxThreeTemp, boxThreeWind);
+            // for 15:00 hours
+            renderBox(data.coord.lat, data.coord.lon, "15:00", 15, boxFourTime, boxFourImg, boxFourMain, boxFourTemp, boxFourWind);
+            // for 18:00 hours
+            renderBox(data.coord.lat, data.coord.lon, "18:00", 18, boxFiveTime, boxFiveImg, boxFiveMain, boxFiveTemp, boxFiveWind);
+            // for 21:00 hours
+            renderBox(data.coord.lat, data.coord.lon, "21:00", 21, boxSixTime, boxSixImg, boxSixMain, boxSixTemp, boxSixWind);
+            }
+        } )
+}
+//  section for our functions
+// function for selection icon
+function forIcon (arg, picture) {
+    // using switch case
+    switch(arg) {
+        // for clear set attribute with image
+        case "Clear":
+            picture.setAttribute("src", "./img/01.png.opdownload");
+            break;
+             // for clouds set attribute with image
+        case "Clouds":
+            picture.setAttribute("src", "./img/02.png.opdownload");
+            break;
+             // for broken clouds set attribute with image
+        case "broken clouds":
+            picture.setAttribute("src", "./img/04.png.opdownload");
+            break;
+             // for drizzle set attribute with image
+        case "Drizzle" :
+            picture.setAttribute("src", "./img/05.png.opdownload");
+            break;
+             // for rain set attribute with image
+        case "Rain":
+            picture.setAttribute("src", "./img/06.png.opdownload");
+            break;
+             // for thunderstorm set attribute with image
+        case "Thunderstorm" :
+            picture.setAttribute("src", "./img/07.png.opdownload");
+            break;
+             // for snow set attribute with image
+        case "Snow":
+            picture.setAttribute("src", "./img/08.png.opdownload");
+            break;
+             // for mist set attribute with image
+        case "Mist" || "Smoke" || "Haze" || "Dust" || "Fog" || "Sand" || "Ash" || "Squall" || "	Tornado":
+            picture.setAttribute("src", "./img/09.png.opdownload");
+            break;
+    
+    }
+    // cloe our function
+} 
+
+
+
+// create function for hour weather with arguments lat and lon fro main response
+function hourWeather (lat, lon) {
+    // request with let and lon from arguments
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}`)
+    // to json format
+        .then( function (resp) {return resp.json() } )
+        .then( function (data) { 
+            // create variable with date
+            let dateNew = new Date();
+            // write in browser string with date
+            date.innerHTML = String(dateNew.getDate()).padStart(2, '0') + '.' + String(dateNew.getMonth() + 1).padStart(2, '0') + '.' + dateNew.getFullYear();
+        //    vriable with day from variable with new date
+            let dayNew = dateNew.getDay();
+        // switch case for selection days
+        switch(dayNew) {
+            // if first day
+         case 0: 
+         min_temp.innerHTML ="Min temperature: " +  (Math.round(data.daily[0].temp.min - 273) + "&deg;" + "C");
+         max_temp.innerHTML ="Max temperature: " + (Math.round(data.daily[0].temp.max - 273) + "&deg;" + "C");
+         break;
+        //  if second
+         case 1: 
+         min_temp.innerHTML ="Min temperature: " +  (Math.round(data.daily[1].temp.min - 273) + "&deg;" + "C");
+         max_temp.innerHTML ="Max temperature: " + (Math.round(data.daily[1].temp.max - 273) + "&deg;" + "C");
+         break;
+        //  if third
+         case 2: 
+         min_temp.innerHTML ="Min temperature: " +  (Math.round(data.daily[2].temp.min - 273) + "&deg;" + "C");
+         max_temp.innerHTML ="Max temperature: " + (Math.round(data.daily[2].temp.max - 273) + "&deg;" + "C");
+         break;
+        //  if fourth
+         case 3: 
+         min_temp.innerHTML ="Min temperature: " +  (Math.round(data.daily[3].temp.min - 273) + "&deg;" + "C");
+         max_temp.innerHTML ="Max temperature: " + (Math.round(data.daily[3].temp.max - 273) + "&deg;" + "C");
+         break;
+        //  if fifth
+         case 4: 
+         min_temp.innerHTML ="Min temperature: " +  (Math.round(data.daily[4].temp.min - 273) + "&deg;" + "C");
+         max_temp.innerHTML ="Max temperature: " + (Math.round(data.daily[4].temp.max - 273) + "&deg;" + "C");
+         break;
+        //  if sixth
+         case 5: 
+         min_temp.innerHTML ="Min temperature: " +  (Math.round(data.daily[5].temp.min - 273) + "&deg;" + "C");
+         max_temp.innerHTML ="Max temperature: " + (Math.round(data.daily[5].temp.max - 273) + "&deg;" + "C");
+         break;
+        //  if seven
+         case 6: 
+         min_temp.innerHTML ="Min temperature: " +  (Math.round(data.daily[6].temp.min - 273) + "&deg;" + "C");
+         max_temp.innerHTML ="Max temperature: " + (Math.round(data.daily[6].temp.max - 273) + "&deg;" + "C");
+         break;
+    }
+       
+   
+}
+        )
+        // close function for days
+};
+
+//---------------
+// function for any times with many arguments
+function renderBox (lat, lon, time, index, boxTime, boxImg, boxMain, boxTemp, boxWind) {
+    // request with lat ad lon
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}`)
+    // response in json format
+        .then( function (resp) {return resp.json() } )
+        .then( function (data) 
+        {
+        // write time
+        boxTime.innerHTML = time;
+        // create icon for this time
+        forIcon(data.hourly[index].weather[0].main, boxImg);
+        // add forecast for this time
+        boxMain.innerHTML = data.hourly[index].weather[0].main;
+        // add temperature for this time
+        boxTemp.innerHTML = (Math.round(data.hourly[index].temp) - 273);
+        // add wind speeed for thi time
+        boxWind.innerHTML = data.hourly[index].wind_speed;
+        })
+        // close function
+}
+// create function day
+function day (argument) {
+      date = new Date();
+      day = date.getDay();
+      return (argument[day - 1]);
+}
+
+
+
+    </script>
+</body>
+</html>
